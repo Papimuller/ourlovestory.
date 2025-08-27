@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phil & Baha's Love Journey</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        :root {
+            --primary-light: #e6f7ff;
+            --primary: #b3e0ff;
+            --primary-dark: #81cfff;
+            --accent: #4db8ff;
+            --text-dark: #0066cc;
+            --text-light: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 120, 215, 0.2);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: #333;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        header {
+            background: linear-gradient(to right, var(--primary-dark), var(--accent));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.7);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(20deg); }
+        }
+
+        nav {
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            border-radius: 0 0 20px 20px;
+            margin: 0 20px;
+            box-shadow: var(--shadow);
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-btn:hover {
+            color: var(--accent);
+        }
+
+        .nav-btn.active {
+            color: var(--accent);
+        }
+
+        .nav-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 15%;
+            width: 70%;
+            height: 3px;
+            background-color: var(--accent);
+            border-radius: 3px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
+            background: linear-gradient(45deg, rgba(179, 224, 255, 0.8), rgba(129, 207, 255, 0.8)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="white" opacity="0.2" x="0" y="0" width="100" height="100"/><path fill="white" opacity="0.3" d="M20,20 L80,20 L80,80 L20,80 Z" /></svg>');
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero h2 {
+            font-size: 2.2rem;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 25px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: linear-gradient(to right, var(--primary-dark), var(--accent));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 120, 215, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 120, 215, 0.4);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .gallery-item {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(179, 224, 255, 0.7), rgba(129, 207, 255, 0.7));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .gallery-item .overlay-text {
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            text-align: center;
+            padding: 20px;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-item:hover .overlay-text {
+            opacity: 1;
+        }
+
+        .memory-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .memory-card h3 {
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .memory-card h3 i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .countdown-item {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 100px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .countdown-label {
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        .love-meter {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin: 40px auto;
+            max-width: 600px;
+            box-shadow: var(--shadow);
+        }
+
+        .meter-scale {
+            height: 30px;
+            background: var(--primary-light);
+            border-radius: 15px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 15px;
+            transition: width 1s ease;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-dark);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cucumber-moment {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(45deg, rgba(179, 224, 255, 0.5), rgba(129, 207, 255, 0.5));
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .cucumber-icon {
+            font-size: 3rem;
+            color: #2e8b57;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .love-letter {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .love-letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary-dark), var(--accent));
+        }
+
+        .love-letter h3 {
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+        }
+
+        .love-letter p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .future-plans {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .plan-card i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-wrap: wrap;
+            }
+            
+            .nav-btn {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .countdown {
+                flex-wrap: wrap;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="hearts" id="hearts-container">
+            <!-- Hearts will be generated here with JavaScript -->
+        </div>
+        <div class="header-content">
+            <h1>Phil <i class="fas fa-heart"></i> Baha</h1>
+            <p>Our Beautiful Journey Together</p>
+        </div>
+    </header>
+    
+    <nav>
+        <button class="nav-btn active" data-page="home">Home</button>
+        <button class="nav-btn" data-page="gallery">Gallery</button>
+        <button class="nav-btn" data-page="memories">Memories</button>
+        <button class="nav-btn" data-page="countdown">Countdown</button>
+        <button class="nav-btn" data-page="love-meter">Love Meter</button>
+        <button class="nav-btn" data-page="future">Our Future</button>
+    </nav>
+    
+    <div class="container">
+        <!-- Home Page -->
+        <div class="page active" id="home">
+            <div class="hero">
+                <h2>Welcome to Our Love Story</h2>
+                <p>This website is dedicated to the beautiful journey we share together. Every moment with you is special, and I wanted to create a place where we can celebrate our love.</p>
+                <button class="btn" id="surprise-btn">Click for a Surprise!</button>
+            </div>
+            
+            <div class="cucumber-moment">
+                <div class="cucumber-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3>Our Special Cucumber Moment</h3>
+                <p>Remember when I gave you that half-bitten cucumber and we laughed it off?.Then you told me unapenda kukula watu..? That's when I knew we had something special...beeing crazyyy</p>
+            </div>
+            
+            <div class="memory-card">
+                <h3><i class="fas fa-gift"></i> Today's Special</h3>
+                <p>It's a beautiful day to celebrate our love! Every day with you feels like a blessing. I cherish our cheap dates, walks and those romantic Chipo Mwitu moments.</p>
+            </div>
+            
+            <div class="memory-card">
+                <h3><i class="fas fa-quote-left"></i> My Promise to You</h3>
+                <p>"I promise to always cherish you, to be by your side through everything, and to keep making you laugh like I did with that cucumber. My heart is already made up - it's yours forever."</p>
+            </div>
+        </div>
+        
+        <!-- Gallery Page -->
+        <div class="page" id="gallery">
+            <div class="hero">
+                <h2>Our Photo Gallery</h2>
+                <p>These are some of our favorite moments together. Each picture tells a story of love, laughter, and happiness.</p>
+            </div>
+            
+            <div class="gallery">
+                <div class="gallery-item" style="background-color: #b3e0ff;">
+                    <div class="overlay-text">Our First smochaa and walk together</div>
+                </div>
+                <div class="gallery-item" style="background-color: #99d6ff;">
+                    <div class="overlay-text">That Time at Chipo Mwitu</div>
+                </div>
+                <div class="gallery-item" style="background-color: #81cfff;">
+                    <div class="overlay-text">Our Laughter Moments</div>
+                </div>
+                <div class="gallery-item" style="background-color: #66c1ff;">
+                    <div class="overlay-text">When You Smiled at Me</div>
+                </div>
+                <div class="gallery-item" style="background-color: #4db8ff;">
+                    <div class="overlay-text">Our First Conversation</div>
+                </div>
+                <div class="gallery-item" style="background-color: #33adff;">
+                    <div class="overlay-text">The Day I Knew I Loved You</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Memories Page -->
+        <div class="page" id="memories">
+            <div class="hero">
+                <h2>Our Special Memories</h2>
+                <p>From our first date to our latest adventure, every moment with you is precious.</p>
+            </div>
+            
+            <div class="memory-card">
+                <h3><i class="fas fa-heart"></i> How We Met</h3>
+                <p>It was an odd meeting, but perfect in its own way. You were shy at first, didn't talk much, but there was something about you that drew me in. Then I offered you that half-bitten cucumber, and we laughed it off... Then hit everything off from that one weird encounter</p>
+            </div>
+            
+            <div class="memory-card">
+                <h3><i class="fas fa-star"></i> First Dates</h3>
+                <p>Our cheap food dates and walks might seem simple to others, but to me they were everything. Sharing those moments with you, seeing you slowly open up to me - those are memories I'll cherish forever. And our Chipo Mwitu dates showed me how beautiful simple moments can be when I'm with you.</p>
+            </div>
+            
+            <div class="memory-card">
+                <h3><i class="fas fa-laugh"></i> The Realization</h3>
+                <p>You didn't want me at first, but my heart was already made up. Every day my love for you keeps growing and growing. You treat me like a husband already, and I can't imagine my life without you in it.</p>
+            </div>
+        </div>
+        
+        <!-- Countdown Page -->
+        <div class="page" id="countdown">
+            <div class="hero">
+                <h2>Countdown to Our Next Meeting</h2>
+                <p>I'm counting down the moments until I can see you again!</p>
+            </div>
+            
+            <div class="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">0</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">0</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">0</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">0</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+            
+            <div class="memory-card">
+                <h3><i class="fas fa-calendar"></i> Why I Count the Moments</h3>
+                <p>I miss you every time we're apart. These countdowns help me feel connected to you even when we're not together. Each second that passes is a second closer to being with you again.</p>
+            </div>
+        </div>
+        
+        <!-- Love Meter Page -->
+        <div class="page" id="love-meter">
+            <div class="hero">
+                <h2>Our Love Meter</h2>
+                <p>How compatible are Phil and Baha? Let's find out!</p>
+            </div>
+            
+            <div class="love-meter">
+                <h3>Compatibility Score</h3>
+                <div class="meter-scale">
+                    <div class="meter-fill" id="love-fill" style="width: 99%;"></div>
+                </div>
+                <p id="love-text">99% - Perfect Match!</p>
+                <button class="btn" id="calculate-love">Calculate Love</button>
+            </div>
+            
+            <div class="love-letter">
+                <h3>My Love for You</h3>
+                <p>My dearest Baha,</p>
+                <p>I don't think you can fully understand how much I adore you. You've become the center of my world, and every day my love for you grows stronger.</p>
+                <p>I want you to be by my bedside when I wake up every morning. I want to wife you up and have you as the mother of my children. You're everything I've ever wanted and more.</p>
+                <p>Even when we're apart, you're always in my thoughts. I miss you every second we're not together.Nakupenda kama uji power.</p>
+                <p>Forever yours,<br>Phil</p>
+            </div>
+        </div>
+        
+        <!-- Future Page -->
+        <div class="page" id="future">
+            <div class="hero">
+                <h2>Our Future Together</h2>
+                <p>I dream of a beautiful future with you by my side</p>
+            </div>
+            
+            <div class="future-plans">
+                <div class="plan-card">
+                    <i class="fas fa-home"></i>
+                    <h3>Our Home</h3>
+                    <p>A place filled with love, laughter, and happiness</p>
+                </div>
+                
+                <div class="plan-card">
+                    <i class="fas fa-ring"></i>
+                    <h3>Marriage</h3>
+                    <p>The day I make you my wife</p>
+                </div>
+                
+                <div class="plan-card">
+                    <i class="fas fa-baby"></i>
+                    <h3>Children</h3>
+                    <p>Beautiful kids who have your smile</p>
+                </div>
+                
+                <div class="plan-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Growing Old</h3>
+                    <p>Together, hand in hand, forever</p>
+                </div>
+            </div>
+            
+            <div class="memory-card">
+                <h3><i class="fas fa-dream"></i> My Dream</h3>
+                <p>I dream of a life where I wake up next to you every morning. Where we build a family together and watch our children grow. Where we support each other through everything life throws our way.</p>
+                <p>I may not be financially stable yet, but I promise to work hard to give you the life you deserve. You're worth every effort and every sacrifice.</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Made with <i class="fas fa-heart" style="color: #ff4d4d;"></i> for Baha by Phil</p>
+    </footer>
+
+    <script>
+        // Generate floating hearts
+        const heartsContainer = document.getElementById('hearts-container');
+        for (let i = 0; i < 25; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '<i class="fas fa-heart"></i>';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heartsContainer.appendChild(heart);
+        }
+        
+        // Page navigation
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const pages = document.querySelectorAll('.page');
+        
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const pageId = button.getAttribute('data-page');
+                
+                // Update active button
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Show correct page
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                    if (page.id === pageId) {
+                        page.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // Countdown timer (to next meeting - set to 3 days from now as example)
+        function updateCountdown() {
+            // Set next meeting date (example: 3 days from now)
+            const nextMeeting = new Date();
+            nextMeeting.setDate(nextMeeting.getDate() + 10);
+            nextMeeting.setHours(19, 0, 0, 0); // Set to 7 PM
+            
+            const now = new Date();
+            const diff = nextMeeting - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        
+        // Surprise button
+        document.getElementById('surprise-btn').addEventListener('click', () => {
+            const messages = [
+                "I love you more every day, Baha! 💕",
+                "I can't stop thinking about your smile!",
+                "Nakupenda kama Uji pawa!",
+                "I miss you right now!",
+                
+                "I can't wait to see you again!",
+                "You make me the happiest boy!"
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            alert(randomMessage);
+        });
+        
+        // Love meter calculation
+        document.getElementById('calculate-love').addEventListener('click', () => {
+            const messages = [
+                "Calculating...",
+                "Analyzing our cheap dates...",
+                "Remembering our first time...",
+                "Measuring how much I miss you...",
+                "Thinking about your smile...",
+                "Almost there...",
+                "Done! You're my perfect match! 💖"
+            ];
+            
+            const loveText = document.getElementById('love-text');
+            const loveFill = document.getElementById('love-fill');
+            const originalText = loveText.textContent;
+            const originalWidth = loveFill.style.width;
+            
+            let i = 0;
+            const interval = setInterval(() => {
+                loveText.textContent = messages[i];
+                loveFill.style.width = (70 + (i * 5)) + '%';
+                i++;
+                
+                if (i >= messages.length) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loveText.textContent = "99% - Soulmates Forever!";
+                        loveFill.style.width = "99%";
+                    }, 1000);
+                }
+            }, 800);
+        });
+        
+        // Add some interactive effects to gallery items
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                item.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    item.style.transform = '';
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
